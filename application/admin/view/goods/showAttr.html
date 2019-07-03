@@ -1,0 +1,23 @@
+<table  align="center"  width='100%' >
+    <!-- 流程五   根据渲染数据 组装html元素 -->
+{volist name='attr' id='v'}
+<tr>
+    <!-- 判断属性类型 如果是2 单选属性 可以有多个 添加一个[+]号的标志 克隆多个单选属性 -->
+    <td  class="label">{eq name="$v.attr_type" value='2'}<a href="javascript:;" onclick="cloneThis(this)">[+]</a>{/eq}{$v.attr_name}</td>
+    <td  >
+    <input type="hidden" name='attr_ids[]' value="{$v.id}">
+    {eq name="$v.attr_input_type" value='1'}
+    <input type="text" name="attr_values[]">
+    {else/}
+    <select  name="attr_values[]">
+        {volist name='v.attr_values' id='vo'}
+        <option>
+            {$vo}
+        </option>
+        {/volist}
+    </select>
+    {/eq}
+    </td>
+</tr>
+{/volist}
+</table>

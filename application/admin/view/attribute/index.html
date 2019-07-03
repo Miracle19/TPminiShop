@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ECSHOP 管理中心 - 商品列表 </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="__ADMIN__Js/jquery-1.8.3.min.js"></script>
+<link href="__ADMIN__Styles/general.css" rel="stylesheet" type="text/css" />
+<link href="__ADMIN__Styles/main.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<h1>
+    <span class="action-span"><a href="{:url('goodsAdd')}">添加新商品</a></span>
+    <span class="action-span1"><a href="">ECSHOP 管理中心</a></span>
+    <span id="search_id" class="action-span1"> - 商品列表 </span>
+    <div style="clear:both"></div>
+</h1>
+<!-- 商品列表 -->
+
+    <div class="list-div" id="listDiv">
+        <table cellpadding="3" cellspacing="1">
+            <tr>
+                <th>编号</th>
+                <th>属性名称</th>
+                <th>所属类型</th>
+                <th>本身类型</th>
+                <th>属性值录入方式</th>
+                <th>默认值</th>
+                <th>操作</th>
+            </tr>
+            {volist name='attr' id='vo'}
+            <tr>
+                <td align="center">{$vo.id}</td>
+                <td align="center" class="first-cell">{$vo.attr_name}</td>
+                <td align="center">{$vo.type_name}</td>
+                <td align="center">{eq name='$vo.attr_type' value='1'}唯一属性{else/}单选属性{/eq}</td>
+                <td align="center">{eq name='$vo.attr_input_type' value='1'}input输入{else/}select选择{/eq}</td>
+                <td align="center">{$vo.attr_values}</td>
+                <td>
+                <a href="{:url('attredit','id='.$vo.id)}" title="编辑"><img src="__ADMIN__Images/icon_edit.gif" width="16" height="16" border="0" /></a>
+                <a href="{:url('del','id='.$vo.id)}" onclick="" title="回收站"><img src="__ADMIN__Images/icon_trash.gif" width="16" height="16" border="0" /></a></td>
+            </tr>
+            {/volist}
+        </table>
+
+        <!-- 分页开始 -->
+        <style>
+        .pagination{
+            text-align: left;
+        }
+        .pagination li{
+            float: left;
+            margin: 5px;
+            text-decoration: none;
+            list-style-type: none;
+            font-size: 20px;
+        }
+        </style>
+        <table id="page-table" cellspacing="0">
+            <tr>
+                <td width="80%">&nbsp;</td>
+                <td align="center" nowrap="true">
+                    <!-- 由数据库返回的分页类对象调用render方法 即可获取分类的页码与导航 -->
+                 
+                </td>
+            </tr>
+        </table>
+    <!-- 分页结束 -->
+    </div>
+
+
+<div id="footer">
+共执行 7 个查询，用时 0.028849 秒，Gzip 已禁用，内存占用 3.219 MB<br />
+版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
+</body>
+</html>
+<!-- <script>
+    // 想干嘛 控制点击某一个商品发生其对应点击下的状态发生变化  需要获取商品id    当前所点击的字段    以及我们要改变的图像 获取当前dom节点
+function changeStatus(goods_id,filed,obj){
+    $.ajax({
+        type:'post',
+        url:"{:url('changeStatus')}",
+        data:{goods_id:goods_id,filed:filed},
+        dataType:'json',
+        success:function(res){
+           if(res.code==0){
+               alert(res.msg)
+           }
+           if(res.status==1){
+               $(obj).attr('src','__ADMIN__/Images/yes.gif')
+           }else{
+            $(obj).attr('src','__ADMIN__/Images/no.gif')
+           }
+        }
+
+
+    })
+}
+</script> -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->

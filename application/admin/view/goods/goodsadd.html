@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ECSHOP 管理中心 - 添加新商品 </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="__ADMIN__Styles/general.css" rel="stylesheet" type="text/css" />
+<link href="__ADMIN__Styles/main.css" rel="stylesheet" type="text/css" />
+<script src="/static/thin/tinymce.min.js"></script>
+</head>
+<body>
+<h1>
+    <span class="action-span"><a href="">商品列表</a>
+    </span>
+    <span class="action-span1"><a href="">ECSHOP 管理中心</a></span>
+    <span id="search_id" class="action-span1"> - 添加新商品 </span>
+    <div style="clear:both"></div>
+</h1>
+
+<div class="tab-div">
+    <div id="tabbar-div">
+        <p>
+            <span class="tab-front" id="general-tab">通用信息</span>
+            <span class="tab-front" id="general-tab">详细描述</span>
+            <span class="tab-front" id="general-tab">属性设置</span>
+            <span class="tab-front" id="general-tab">商品相册</span>
+        </p>
+    </div>
+    <div id="tabbody-div">
+        <form enctype="multipart/form-data" action="" method="post">
+            <!-- token生成 -->
+            <!-- {:token()} -->
+            <table width="90%" align="center" class='general-table'>
+                <tr>
+                    <td class="label">商品名称：</td>
+                    <td><input type="text" name="goods_name" value=""size="30" />
+                    <span class="require-field">*</span></td>
+                </tr>
+                <tr>
+                    <td class="label">商品货号： </td>
+                    <td>
+                        <input type="text" name="goods_sn" value="" size="20"/>
+                        <span id="goods_sn_notice"></span><br />
+                        <span class="notice-span"id="noticeGoodsSN">如果您不输入商品货号，系统将自动生成一个唯一的货号。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">商品分类：</td>
+                    <td>
+                        <select name="cate_id">
+                            <option value="0">请选择...</option>
+                            {volist name='category' id='v'}
+                            <option value="{$v.id}">{$v.lev|str_repeat='---',###}{$v.cate_name}</option>
+                            {/volist}
+                        </select>
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">本店售价：</td>
+                    <td>
+                        <input type="text" name="shop_price" value="" size="20"/>
+                        <span class="require-field">*</span>
+                        <span class="notice-span"id="noticeGoodsSN">本店售价应低于市场售价</span>
+                    </td>
+                </tr>
+                <!-- <tr>
+                    <td class="label">是否上架：</td>
+                    <td>
+                        <input type="radio" name="is_sale" value="1" checked="checked" /> 是
+                        <input type="radio" name="is_sale" value="0"/> 否
+                    </td>
+                </tr> -->
+                <tr>
+                    <td class="label">加入推荐：</td>
+                    <td>
+                        <input type="checkbox" name="is_hot" value="1" /> 热卖 
+                        <input type="checkbox" name="is_new" value="1" /> 新品 
+                        <input type="checkbox" name="is_rec" value="1" /> 推荐
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">市场售价：</td>
+                    <td>
+                        <input type="text" name="market_price" value="" size="20" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">商品图片：</td>
+                    <td>
+                        <input type="file" name="goods_img" size="35" />
+                    </td>
+                </tr>
+               
+            </table>
+            <table  align="center" class='general-table' style="display: none" width='100%' >
+                <tr>
+                    <td class="textLable">商品描述：</td>
+                    <td>
+                        <!-- <textarea name="goods_body" cols="40" rows="3"></textarea> -->
+                        <textarea id="mytextarea" name='goods_body'></textarea>
+                    </td>
+                </tr>
+            </table>
+            <!-- 流程一  准备第三个选项卡  用来根据类型id发起ajax请求 获得对应属性列表-->
+            <table  align="center" class='general-table' style="display: none" width='100%' >
+                    <tr>
+                        <td class="label">商品类型</td>
+                        <td>
+                            <select name="type_id" id='type_id'>
+                                <option value="0">选择类型</option>
+                                {volist name='type' id='v'}
+                                <option value="{$v.id}">{$v.type_name}</option>
+                                {/volist}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" id='showattr'></td>
+                    </tr>
+                </table>
+            <table  align="center" class='general-table' style="display: none" width='100%'  >
+                <tr>
+                    <td class="label"></td>
+                    <td>
+                        <input type="button" value="多个批量上传" id='addBtn'>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="上传商品相册"></td>
+                    <td>
+                        <input type="file" name="imgs[]" >
+                    </td>
+                </tr>
+            </table>
+            <div class="button-div">
+                <input type="submit" value=" 确定 " class="button"/>
+                <input type="reset" value=" 重置 " class="button" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="footer">
+共执行 9 个查询，用时 0.025161 秒，Gzip 已禁用，内存占用 3.258 MB<br />
+版权所有 &copy; 2005-2012 上海商派网络科技有限公司，并保留所有权利。</div>
+</body>
+</html>
+<style>
+td.textLable {
+    text-align: right;
+    vertical-align: top;
+    font-weight: bold;
+    padding: 5px 1em;
+    /* width: 30%; */
+}
+
+
+</style>
+<script src="__ADMIN__Js/jquery-1.8.3.min.js"></script>
+<script>
+ tinymce.init({
+    selector: '#mytextarea'
+  });
+  $('#tabbar-div span').click(function(){
+    //   隐藏所有选项卡对应的table标签
+    $('.general-table').hide();
+    var index = $(this).index();
+    // alert(index);
+    $('.general-table').eq(index).show();
+  })
+//   类型切换事件 获取属性列表
+$('#type_id').change(function(){
+    // 获取所需要的参数
+    var type_id = $(this).val();
+    // console.log(type_id);
+    // 如果参数等与 0  向html里面追加内容 显示选择类型
+    if(type_id==0){
+        $('#showattr').html('<h1 align="center">请选择类型!!!</h1>');
+        return false;
+    }
+    // 发起ajax请求 请求参数对应select标签option中的value值 根据该值 获取我们需要的属性
+    // 流程二     分析要发出的参数   即type_id  因为属性的type_id 与类型表的id字段对应的关系 
+    $.ajax({
+        url:"{:url('showAttr')}",
+        type:'post',
+        data:{type_id:type_id},
+        success:function(res){
+            // 返回一段html内容追加到网页
+            $('#showattr').html(res)
+        }
+    })
+})
+// 流程六 复制attr_type =  2 的单选属性的 标签元素  为+复制 为-删除
+function cloneThis(obj){
+    if($(obj).html()=='[+]'){
+        // 复制新的tr标签 结果为对象
+        var newTr = $(obj).parent().parent().clone();
+        // 将新标签中的 a标签中的[+] 修改为[-]
+        newTr.find('a').html('[-]');
+        // 将新的tr加入到html中
+        $(obj).parent().parent().after(newTr);
+    }else{
+        $(obj).parent().parent().remove();
+    }
+}
+// 多个多片上传复制
+$('#addBtn').click(function(){
+    var newTr = $(this).parent().parent().next().clone();
+    $(this).parent().parent().parent().append(newTr);
+})
+</script>
